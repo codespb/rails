@@ -1,0 +1,63 @@
+version: '3.7'
+services:
+  rails:
+    build: .
+    image: rails
+    # command: "bin/dev"
+    volumes:
+      - "./app:/app"
+      - "./bundle:/bundle"
+      - "./database.yml:/app/config/database.yml"
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - rails
+    depends_on:
+      - mysql
+  sidekiq:
+    image: rails
+    command: "bundle exec sidekiq"
+    volumes_from:
+      - rails
+    env_file:
+      - .env
+    networks:
+      - rails
+    depends_on:
+      - redis
+      - mysql
+
+  mysql:
+    image: mariadb:latest
+    restart: unless-stopped
+    volumes:
+      - "mysql:/var/lib/mysql"
+    env_file:
+      - .env
+    networks:
+      - rails
+  myadmin:
+    image: phpmyadmin:latest
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - rails
+    ports:
+      - "3001:80"
+  redis:
+    image: redis:alpine
+    restart: always
+    networks:
+      - rails
+    volumes:
+      - "redis:/data"
+volumes:
+  mysql:
+  redis:
+  bundle:
+networks:
+  rails:
+    driver: bridge
