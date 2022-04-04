@@ -1,8 +1,8 @@
 version: '3.7'
 services:
   rails:
-    build: .
-    image: rails
+    # build: .
+    image: codespb/rails
     # command: "bin/dev"
     volumes:
       - "./app:/app"

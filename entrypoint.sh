@@ -10,7 +10,7 @@ fi
 # Installing rails is /app dir is empty. 
 # Usefull when using volumes
 if [ -f "$INSTALL_PATH/Gemfile" ]; then
-    bundle    install
+    bundle install
 else
     rails new $INSTALL_PATH -j esbuild --css tailwind --database=mysql --no-sprockets
 fi
