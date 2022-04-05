@@ -14,21 +14,19 @@ default: &default
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV['MYSQL_USER'] %>
-  password:  <%= ENV['MYSQL_PASSWORD'] %>
-  host:  <%= ENV['MYSQL_HOST'] %>
-  port: <%= ENV['MYSQL_PORT'] || 3306 %>
+  password: <%= ENV['MYSQL_PASSWORD'] %>
+  host: <%= ENV['MYSQL_HOST'] %>
+  database: <%= ENV['MYSQL_DATABASE'] %>
 
 development:
   <<: *default
-  database: <%= ENV['MYSQL_DATABASE'] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  adapter: sqlite3
-  database: ./test/database.sqlite
+  database: app_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
